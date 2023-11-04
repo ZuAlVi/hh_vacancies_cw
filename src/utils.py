@@ -4,7 +4,7 @@ import requests
 from config import config
 
 
-def get_employers_and_vacancies(data: list) -> list:
+def get_data(data: list) -> list:
     """Функция принимает на вход список ID компаний с HH.RU.
     Возвращает список словарей"""
     result = []
@@ -40,10 +40,10 @@ def create_database(db_name: str, params: dict) -> None:
     conn.close()
 
 
-def create_tables(db_name: str, params: dict) -> None
+def create_tables(db_name: str, params: dict) -> None:
     """
-    Функция для создания таблиц в базе данных
-    Принимает в качестве аргументов имя базы данных и параметры для подключения
+    Функция для создания таблиц в базе данных.
+    Принимает в качестве аргументов имя базы данных и параметры для подключения.
     """
     conn = psycopg2.connect(database=db_name, **params)
 
