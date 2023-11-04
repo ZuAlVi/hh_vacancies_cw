@@ -20,7 +20,7 @@ def get_employers_and_vacancies(data: list) -> list:
     return result
 
 
-def create_database(name: str, params: dict) -> None:
+def create_database(db_name: str, params: dict) -> None:
     """Функция создает базу двнных.
     Если база данных с таким названием уже существует,
     то удаляет ее.
@@ -32,9 +32,34 @@ def create_database(name: str, params: dict) -> None:
         cur.execute('select * from pg_database')
         all_databases = cur.fetchall()
         for item in all_databases:
-            if item[1] == name:
-                cur.execute(f'DROP DATABASE {name}')
+            if item[1] == db_name:
+                cur.execute(f'DROP DATABASE {db_name}')
                 break
-        cur.execute(f'CREATE DATABASE {name}')
+        cur.execute(f'CREATE DATABASE {db_name}')
 
+    conn.close()
+
+
+def create_tables(db_name: str, params: dict) -> None
+    """
+    Функция для создания таблиц в базе данных
+    Принимает в качестве аргументов имя базы данных и параметры для подключения
+    """
+    conn = psycopg2.connect(database=db_name, **params)
+
+    with conn.cursor() as cur:
+        cur.execute('CREATE TABLE companies('
+                       'company_id serial PRIMARY KEY,'
+                       'company_name varchar(50) NOT NULL,'
+                       )
+
+        cur.execute('CREATE TABLE vacancies('
+                       'vacancy_id serial PRIMARY KEY,'
+                       'company_id int REFERENCES companies (company_id) NOT NULL,'
+                       'title_vacancy varchar(150) NOT NULL,'
+                       'salary int,'
+                       'link varchar(200) NOT NULL,'
+                       'description text,')
+
+    conn.commit()
     conn.close()
